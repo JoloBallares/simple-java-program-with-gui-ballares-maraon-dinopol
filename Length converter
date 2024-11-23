@@ -1,0 +1,99 @@
+// Length Converter or Conversion 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Main {
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Length Converter");
+        frame.setSize(300, 400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // pang BoxLayout paras frame 
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
+        // Title 
+        JLabel titleLabel = new JLabel("Length Converter", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+
+        // pang Input 
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        JLabel inputLabel = new JLabel("Enter Length:");
+        inputLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JTextField inputField = new JTextField(10);
+        inputField.setMaximumSize(new Dimension(200, 30));
+        inputField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        inputPanel.add(inputLabel);
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10))); // pacing
+        inputPanel.add(inputField);
+
+        // Radio Button Section
+        JPanel radioPanel = new JPanel();
+        radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
+        JRadioButton toMetersButton = new JRadioButton("To Meters");
+        JRadioButton toCmButton = new JRadioButton("To Centimeters");
+        ButtonGroup group = new ButtonGroup();
+        group.add(toMetersButton);
+        group.add(toCmButton);
+        radioPanel.add(toMetersButton);
+        radioPanel.add(toCmButton);
+        radioPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // para sa Resulta 
+        JPanel resultPanel = new JPanel();
+        resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
+        JLabel resultLabel = new JLabel("Converted Length:");
+        resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JTextField resultField = new JTextField(15);
+        resultField.setEditable(false);
+        resultField.setMaximumSize(new Dimension(200, 30));
+        resultField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        resultPanel.add(resultLabel);
+        resultPanel.add(Box.createRigidArea(new Dimension(0, 10))); // sa spacing
+        resultPanel.add(resultField);
+
+        // Button 
+        JButton convertButton = new JButton("Convert");
+        convertButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // para sa ActionListener para ma convert  Convert Button para sa clicking pressing
+        convertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double inputLength = Double.parseDouble(inputField.getText());
+                    double convertedLength;
+
+                    if (toMetersButton.isSelected()) {
+                        convertedLength = inputLength / 100.0; // para sa centimeter to meter 
+                        resultField.setText(String.format("%.2f m", convertedLength));
+                    } else if (toCmButton.isSelected()) {
+                        convertedLength = inputLength * 100.0; // para sa meter to centimeter
+                        resultField.setText(String.format("%.2f cm", convertedLength));
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Please select a conversion option.");
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Invalid input! Please enter a number.");
+                }
+            }
+        });
+
+        // components para sa frame
+        frame.add(titleLabel);
+        frame.add(inputPanel);
+        frame.add(Box.createRigidArea(new Dimension(0, 20))); // pang spacing
+        frame.add(radioPanel);
+        frame.add(Box.createRigidArea(new Dimension(0, 20))); // pang spacing 
+        frame.add(resultPanel);
+        frame.add(Box.createRigidArea(new Dimension(0, 20))); // pang spacing
+        frame.add(convertButton);
+
+        frame.setVisible(true);
+    }
+}
